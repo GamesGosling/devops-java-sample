@@ -1,0 +1,11 @@
+FROM wutang/skywalking-agent:8.1.0 AS Sw-Agent
+
+FROM java:openjdk-8-jre-alpine
+
+WORKDIR /home
+
+COPY --from=Sw-Agent /skywalking/agent /home/agent/
+
+COPY target/*.jar /home
+
+ENTRYPOINT java $JAVA_OPTS -jar *.jar
